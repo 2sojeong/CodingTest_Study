@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.io.*;
 
@@ -6,20 +5,24 @@ public class Main {
 
     public static int N;
     public static int M;
-    public static int[] arr = new int[9];
 
-    public static void main(String args[]) throws IOException{
+    public static int num = 1;
+
+    public static int[] arr = new int[11];
+
+    public static boolean[] isused = new boolean[11];
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        bt(0);
+        bt(0,1);
+
 
     }
 
-    static void bt(int k){
+    static void bt(int k, int start){
         if(k == M){
             for(int i = 0; i < M; i++){
                 System.out.print(arr[i]+" ");
@@ -27,23 +30,14 @@ public class Main {
             System.out.println();
             return;
         }
-        for(int i = 1; i <= N; i++){
-            if(checkMax(arr) < i){
-                arr[k] = i;
-                bt(k + 1);
-                arr[k] = 0;
-            
-            }
-        }
-    }
 
-    static int checkMax(int[] arr){
-        int max = arr[0];
-        for(int i = 1; i < arr.length; i++){
-            if(max < arr[i]){
-                max = arr[i];
+        for(int i = start; i <= N; i++){
+            if(!isused[i]){
+                arr[k] = i;
+                isused[i] = true;
+                bt(k+1, i+1);
+                isused[i] = false;
             }
         }
-        return max;
     }
 }
