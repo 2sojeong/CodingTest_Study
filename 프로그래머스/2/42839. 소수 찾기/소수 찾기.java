@@ -4,7 +4,6 @@ import java.io.*;
 class Solution {
     static ArrayList<Integer> arr = new ArrayList<>();
     static boolean[] check = new boolean[7];
-    
     public int solution(String numbers) {
         int answer = 0;
         
@@ -12,16 +11,16 @@ class Solution {
             dfs(numbers,"",i+1);
         }
         
-        for(int i = 0; i < arr.size(); i++){
-            if(prime(arr.get(i))){
+        for(int n : arr){
+            if(prime(n)){
                 answer ++;
             }
         }
         return answer;
     }
     
-    static void dfs(String str, String temp, int m){
-        if(temp.length() == m){
+    static void dfs(String str, String temp, int n){
+        if(temp.length() == n){
             int num = Integer.parseInt(temp);
             if(!arr.contains(num)){
                 arr.add(num);
@@ -32,19 +31,17 @@ class Solution {
             if(!check[i]){
                 check[i] = true;
                 temp += str.charAt(i);
-                dfs(str,temp,m);
+                dfs(str,temp,n);
                 check[i] = false;
                 temp = temp.substring(0,temp.length()-1);
             }
         }
     }
-               
-     
-    static boolean prime(int num){
-        if(num < 2) return false;
-        
-        for(int i = 2; i*i <= num; i++){
-            if(num % i == 0) return false;
+    
+    static boolean prime(int n){
+        if(n < 2) return false;
+        for(int i = 2; i*i <= n; i++){
+            if(n % i == 0) return false;
         }
         
         return true;
