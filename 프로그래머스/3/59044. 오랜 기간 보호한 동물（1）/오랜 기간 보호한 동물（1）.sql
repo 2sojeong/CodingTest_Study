@@ -1,0 +1,7 @@
+select i.NAME, i.DATETIME
+from ANIMAL_INS i
+left join ANIMAL_OUTS o
+on i.ANIMAL_ID = o.ANIMAL_ID
+where o.DATETIME IS NULL
+order by i.DATETIME
+LIMIT 3
