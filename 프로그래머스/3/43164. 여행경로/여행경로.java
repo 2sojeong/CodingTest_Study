@@ -1,31 +1,32 @@
 import java.util.*;
 
 class Solution {
-    private static ArrayList<String> routes = new ArrayList<>();
-    private static boolean[] visit;
-    public String[] solution(String[][] tickets) {
-        String[] answer = {};
-        Arrays.sort(tickets,(a,b) -> a[1].compareTo(b[1]));
-        visit = new boolean[tickets.length];
-        dfs(0,"ICN","ICN", tickets);
 
+    private static ArrayList<String> result = new ArrayList<>();
+    private static HashMap<String,PriorityQueue<String>> map = new HashMap<>();
+    
+    public String[] solution(String[][] tickets) {
+    
+        for(int i = 0; i < tickets.length; i++){
+            String from = tickets[i][0];
+            String to = tickets[i][1];
+            //없으면 큐 새로 만들기
+            map.putIfAbsent(from, new PriorityQueue<>());
+            map.get(from).add(to);
+        }
         
-        answer = routes.get(0).split(" ");
-        return answer;
+        dfs("ICN");
+        return result.toArray(new String[0]);
     }
     
-    private static void dfs(int cnt, String start, String route, String[][] t){
-        if(cnt == t.length){
-            routes.add(route);
-            return;
+    private static void dfs(String from){
+        PriorityQueue<String> queue = map.get(from);
+        
+        while(queue != null && !queue.isEmpty() ){
+            String to = queue.poll();
+            dfs(to);
         }
-   
-        for(int i = 0; i < t.length; i++){
-            if(start.equals(t[i][0]) && !visit[i]){
-                visit[i] = true;
-                dfs(cnt+1, t[i][1], route+" "+t[i][1], t);
-                visit[i] = false;
-            }
-        }
+        
+        result.add(0,from);        
     }
 }
